@@ -8,23 +8,21 @@ class ConvertionException(Exception):
 class CurrencyConverter():
     @staticmethod
     def convert(quote: str, base: str, amount: str):
-        if quote == base:
-            raise ConvertionException(f'Невозможно перевести валюту {base} в саму себя')
+        quote = quote.lower()
+        base = base.lower()
+        if quote not in keys:
+            raise ConvertionException(f'Валюта {quote} не найдена.')
 
-        try:
-            quote_ticken = keys[quote]
-        except KeyError:
-            raise ConvertionException(f'Не удалось обработать валюту {quote}')
+        if base not in keys:
+            raise ConvertionException(f'Валюта {base} не найдена.')
 
-        try:
-            base_ticker = keys[base]
-        except KeyError:
-            raise ConvertionException(f'Не удалось обработать валюту {base}')
 
         try:
             amount = float(amount)
         except ValueError:
             raise ConvertionException(f'Не удалось обработать количество {amount}')
+
+
 
         r = requests.get(f'https://min-api.cryptocompare.com/data/price?fsym={keys[quote]}&tsyms={keys[base]}')
         total_base = json.loads(r.content)[keys[base]]
