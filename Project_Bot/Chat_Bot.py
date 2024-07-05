@@ -4,7 +4,6 @@ from extensions import ConvertionException, CurrencyConverter
 
 bot = telebot.TeleBot(TOKEN)
 
-dict((k.lower(), v) for k,v in {'My Key':'My Value'}.items())
 @bot.message_handler(commands=['start', ])
 def repeat(message: telebot.types.Message):
     bot.reply_to(message, f'Привет, {message.chat.username}! Для вызова справки введите /help')
