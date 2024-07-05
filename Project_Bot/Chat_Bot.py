@@ -11,7 +11,7 @@ def repeat(message: telebot.types.Message):
 @bot.message_handler(commands=['help', ])
 def help(message: telebot.types.Message):
     text = ('Чтобы начать работу с конвертором валют введите комманду в следующем формате: '
-            '\n<имя валюты, цену которой хотите узнать> <имя валюты, в которой надо узнать цену первой валюты> <количество первой валюты> в нижнем регистре\n'
+            '\n<имя валюты, цену которой хотите узнать> <имя валюты, в которой надо узнать цену первой валюты> <количество первой валюты>\n'
             'Пример: доллар рубль 3. Для просмотра достурных валют введите /values')
     bot.reply_to(message, text)
 
@@ -32,7 +32,9 @@ def convert(message: telebot.types.Message):
             raise ConvertionException(f'Неверное количество параметров')
 
         quote, base, amount = values
+
         total_base = CurrencyConverter.convert(quote, base, amount)
+
     except Exception as e:
         bot.reply_to(message, f'Ошибка пользователя\n{e}')
     except Exception as e:
